@@ -1,0 +1,42 @@
+PCI Target Mode demo code -- Work Still in Progress
+
+This is an example of interfacing to a synchronous bus with FpgaC.
+
+Check on FpgaC sf.net subversion archive for current source,
+and project status.
+
+   svn co https://svn.sourceforge.net/svnroot/fpgac/trunk/fpgac fpgac
+
+Development isn't complete as of Beta-2, and work is still in
+progress to complete development and testing on the Dini DN2K
+board in the next few weeks. What is provided here is for
+reference only, as an example of constructing more complex hardware
+projects with FpgaC.
+
+The fpgac_process pci is designed to run directly off the PCI bus
+clock, and be a standards conformant PCI 2.2 target mode interface.
+
+The design is based on a one hot state machine using the variables
+target_sm and next_target_sm. There is one if statement per state,
+plus an async reset state. The fpgac_process pci loops for each
+PCI clock, processes the current state, and then updates
+next_target_sm state to target_sm. 
+
+The use of the one hot allows the if statements for each state to
+be dependent on a single bit AND operation for the conditional,
+and avoids doing a parallel subtract comparison if this was a
+normal char/int C variable. There is also an excess of masking to
+trim bits (particularly the sign bits), and shifts which are not
+done at runtime, but by the compiler, thus they are "free" since
+they do not create additional logic.
+
+The worst case logic depth results from the pci bus tristate enable
+terms. While it appears the pci FSM can run above 70mhz, there are
+two solutions necessary to cutting that in half. First is to enable
+the bus earlier with a shorter conditional path. The second is that
+their are some logic optimizations which need to be made to how FpgaC
+partitions terms into LUT's. The current solution was inherited from
+TMCC which does it early, and mistakenly allows the same terms to be
+replicated, chewing up LUT inputs and pushing the tree deeper than
+necessary. The solution path to fix that is the same as the MUX
+project, so this will become a beta-3 project priority.

@@ -1,0 +1,290 @@
+LCANET, 6
+PWR, 1, VCC
+PWR, 0, GND
+PROG, fpgac, 1.0.beta-2  SVN: $Revision: 40 $, "Thu Mar  2 03:29:13 2006"
+PART, 4003pc84
+SYM, CLK-AA, BUFGS, LIBVER=2.0.0
+PIN, I, I, CLK_pad
+PIN, O, O, CLK
+END
+EXT, CLK_pad, I
+SYM, counter_Running_FFin, INV, LIBVER=2.0.0
+PIN, I, I, GND
+PIN, O, O, counter_Running_FFin
+END
+SYM, counter_Running, DFF, LIBVER=2.0.0
+PIN, D, I, counter_Running_FFin
+PIN, C, I, CLK
+PIN, CE, I, VCC
+PIN, Q, O, counter_Running
+END
+SYM, counter_main_S0_lights_0-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_0
+PIN, O, O, counter_main_S0_lights_0_pad
+END
+EXT, counter_main_S0_lights_0_pad, O
+SYM, counter_main_S0_lights_0_FFin, BUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_count_0
+PIN, O, O, counter_main_S0_lights_0_FFin
+END
+SYM, counter_main_S0_lights_0, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_0_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_0
+END
+SYM, counter_main_S0_lights_1-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_1
+PIN, O, O, counter_main_S0_lights_1_pad
+END
+EXT, counter_main_S0_lights_1_pad, O
+SYM, counter_main_S0_lights_1_FFin, EQN, EQN=((~I0*~I1)+(I0*I1)), LIBVER=2.0.0
+PIN, I1, I, counter_main_S0_count_1
+PIN, I0, I, counter_main_S0_count_0
+PIN, O, O, counter_main_S0_lights_1_FFin
+END
+SYM, counter_main_S0_lights_1, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_1_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_1
+END
+SYM, counter_main_S0_lights_2-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_2
+PIN, O, O, counter_main_S0_lights_2_pad
+END
+EXT, counter_main_S0_lights_2_pad, O
+SYM, counter_main_S0_lights_2_FFin, EQN, EQN=((I0*I1*I2)+(~I0*~I2)+(~I0*~I1)), LIBVER=2.0.0
+PIN, I2, I, counter_main_S0_count_1
+PIN, I1, I, counter_main_S0_count_0
+PIN, I0, I, counter_main_S0_count_2
+PIN, O, O, counter_main_S0_lights_2_FFin
+END
+SYM, counter_main_S0_lights_2, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_2_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_2
+END
+SYM, counter_main_S0_lights_3-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_3
+PIN, O, O, counter_main_S0_lights_3_pad
+END
+EXT, counter_main_S0_lights_3_pad, O
+SYM, counter_main_S0_lights_3_FFin, BUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_3F0
+PIN, O, O, counter_main_S0_lights_3_FFin
+END
+SYM, counter_main_S0_lights_3, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_3_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_3
+END
+SYM, counter_main_S0_lights_4-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_4
+PIN, O, O, counter_main_S0_lights_4_pad
+END
+EXT, counter_main_S0_lights_4_pad, O
+SYM, counter_main_S0_lights_4_FFin, EQN, EQN=((~I0*~I1)+(I0*I1)), LIBVER=2.0.0
+PIN, I1, I, counter_main_S0_count_4
+PIN, I0, I, counter_main_S0_S0_T3_car_4
+PIN, O, O, counter_main_S0_lights_4_FFin
+END
+SYM, counter_main_S0_lights_4, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_4_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_4
+END
+SYM, counter_main_S0_lights_5-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_5
+PIN, O, O, counter_main_S0_lights_5_pad
+END
+EXT, counter_main_S0_lights_5_pad, O
+SYM, counter_main_S0_lights_5_FFin, EQN, EQN=((I0*I1*I2)+(~I1*~I2)+(~I0*~I2)), LIBVER=2.0.0
+PIN, I2, I, counter_main_S0_count_5
+PIN, I1, I, counter_main_S0_count_4
+PIN, I0, I, counter_main_S0_S0_T3_car_4
+PIN, O, O, counter_main_S0_lights_5_FFin
+END
+SYM, counter_main_S0_lights_5, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_5_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_5
+END
+SYM, counter_main_S0_lights_6-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_6
+PIN, O, O, counter_main_S0_lights_6_pad
+END
+EXT, counter_main_S0_lights_6_pad, O
+SYM, counter_main_S0_lights_6_FFin, BUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_6F0
+PIN, O, O, counter_main_S0_lights_6_FFin
+END
+SYM, counter_main_S0_lights_6, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_6_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_6
+END
+SYM, counter_main_S0_lights_7-OBUF, OBUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_lights_7
+PIN, O, O, counter_main_S0_lights_7_pad
+END
+EXT, counter_main_S0_lights_7_pad, O
+SYM, counter_main_S0_lights_7_FFin, EQN, EQN=((~I0*~I2)+(~I0*~I1)+(I1*~I2)), LIBVER=2.0.0
+PIN, I2, I, counter_main_S0_S0_T14_add_3
+PIN, I1, I, counter_main_S0_S0_T3_car_4
+PIN, I0, I, counter_main_S0_count_7
+PIN, O, O, counter_main_S0_lights_7_FFin
+END
+SYM, counter_main_S0_lights_7, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_lights_7_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_lights_7
+END
+SYM, counter_main_S0_count_0_FFin, INV, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_count_0
+PIN, O, O, counter_main_S0_count_0_FFin
+END
+SYM, counter_main_S0_count_0, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_0_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_0
+END
+SYM, counter_main_S0_count_1_FFin, EQN, EQN=((I0*~I1)+(~I0*I1)), LIBVER=2.0.0
+PIN, I1, I, counter_main_S0_count_1
+PIN, I0, I, counter_main_S0_count_0
+PIN, O, O, counter_main_S0_count_1_FFin
+END
+SYM, counter_main_S0_count_1, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_1_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_1
+END
+SYM, counter_main_S0_count_2_FFin, EQN, EQN=((~I0*I1*I2)+(I0*~I2)+(I0*~I1)), LIBVER=2.0.0
+PIN, I2, I, counter_main_S0_count_1
+PIN, I1, I, counter_main_S0_count_0
+PIN, I0, I, counter_main_S0_count_2
+PIN, O, O, counter_main_S0_count_2_FFin
+END
+SYM, counter_main_S0_count_2, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_2_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_2
+END
+SYM, counter_main_S0_count_3_FFin, BUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_count_3F0
+PIN, O, O, counter_main_S0_count_3_FFin
+END
+SYM, counter_main_S0_count_3, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_3_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_3
+END
+SYM, counter_main_S0_count_4_FFin, EQN, EQN=((I0*~I1)+(~I0*I1)), LIBVER=2.0.0
+PIN, I1, I, counter_main_S0_count_4
+PIN, I0, I, counter_main_S0_S0_T3_car_4
+PIN, O, O, counter_main_S0_count_4_FFin
+END
+SYM, counter_main_S0_count_4, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_4_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_4
+END
+SYM, counter_main_S0_count_5_FFin, EQN, EQN=((I0*I1*~I2)+(~I1*I2)+(~I0*I2)), LIBVER=2.0.0
+PIN, I2, I, counter_main_S0_count_5
+PIN, I1, I, counter_main_S0_count_4
+PIN, I0, I, counter_main_S0_S0_T3_car_4
+PIN, O, O, counter_main_S0_count_5_FFin
+END
+SYM, counter_main_S0_count_5, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_5_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_5
+END
+SYM, counter_main_S0_count_6_FFin, BUF, LIBVER=2.0.0
+PIN, I, I, counter_main_S0_count_6F0
+PIN, O, O, counter_main_S0_count_6_FFin
+END
+SYM, counter_main_S0_count_6, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_6_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_6
+END
+SYM, counter_main_S0_count_7_FFin, EQN, EQN=((I0*~I1)+(I0*I2)+(I1*I2)), LIBVER=2.0.0
+PIN, I2, I, counter_main_S0_S0_T14_add_3
+PIN, I1, I, counter_main_S0_S0_T3_car_4
+PIN, I0, I, counter_main_S0_count_7
+PIN, O, O, counter_main_S0_count_7_FFin
+END
+SYM, counter_main_S0_count_7, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_count_7_FFin
+PIN, C, I, CLK
+PIN, CE, I, counter_main_S0_T1_looptop
+PIN, Q, O, counter_main_S0_count_7
+END
+SYM, counter_main_S0_T1_looptop_FFin, EQN, EQN=((~I1)+(I0)), LIBVER=2.0.0
+PIN, I1, I, counter_Running
+PIN, I0, I, counter_main_S0_T1_looptop
+PIN, O, O, counter_main_S0_T1_looptop_FFin
+END
+SYM, counter_main_S0_T1_looptop, DFF, LIBVER=2.0.0
+PIN, D, I, counter_main_S0_T1_looptop_FFin
+PIN, C, I, CLK
+PIN, CE, I, VCC
+PIN, Q, O, counter_main_S0_T1_looptop
+END
+SYM, SYMcounter_main_S0_S0_T3_car_4, EQN, EQN=((I0*I1*I2*I3)), LIBVER=2.0.0
+PIN, I3, I, counter_main_S0_count_1
+PIN, I2, I, counter_main_S0_count_0
+PIN, I1, I, counter_main_S0_count_2
+PIN, I0, I, counter_main_S0_count_3
+PIN, O, O, counter_main_S0_S0_T3_car_4
+END
+SYM, SYMcounter_main_S0_S0_T14_add_3, EQN, EQN=((~I0*I1*I2*I3)+(I0*~I3)+(I0*~I2)+(I0*~I1)), LIBVER=2.0.0
+PIN, I3, I, counter_main_S0_count_5
+PIN, I2, I, counter_main_S0_count_4
+PIN, I1, I, counter_main_S0_count_6
+PIN, I0, I, counter_main_S0_count_7
+PIN, O, O, counter_main_S0_S0_T14_add_3
+END
+SYM, SYMcounter_main_S0_lights_3F0, EQN, EQN=((I0*I1*I2*I3)+(~I0*~I3)+(~I0*~I2)+(~I0*~I1)), LIBVER=2.0.0
+PIN, I3, I, counter_main_S0_count_1
+PIN, I2, I, counter_main_S0_count_0
+PIN, I1, I, counter_main_S0_count_2
+PIN, I0, I, counter_main_S0_count_3
+PIN, O, O, counter_main_S0_lights_3F0
+END
+SYM, SYMcounter_main_S0_lights_6F0, EQN, EQN=((I0*I1*I2*I3)+(~I1*~I3)+(~I1*~I2)+(~I0*~I1)), LIBVER=2.0.0
+PIN, I3, I, counter_main_S0_count_5
+PIN, I2, I, counter_main_S0_count_4
+PIN, I1, I, counter_main_S0_count_6
+PIN, I0, I, counter_main_S0_S0_T3_car_4
+PIN, O, O, counter_main_S0_lights_6F0
+END
+SYM, SYMcounter_main_S0_count_3F0, EQN, EQN=((~I0*I1*I2*I3)+(I0*~I3)+(I0*~I2)+(I0*~I1)), LIBVER=2.0.0
+PIN, I3, I, counter_main_S0_count_1
+PIN, I2, I, counter_main_S0_count_0
+PIN, I1, I, counter_main_S0_count_2
+PIN, I0, I, counter_main_S0_count_3
+PIN, O, O, counter_main_S0_count_3F0
+END
+SYM, SYMcounter_main_S0_count_6F0, EQN, EQN=((I0*~I1*I2*I3)+(I1*~I3)+(I1*~I2)+(~I0*I1)), LIBVER=2.0.0
+PIN, I3, I, counter_main_S0_count_5
+PIN, I2, I, counter_main_S0_count_4
+PIN, I1, I, counter_main_S0_count_6
+PIN, I0, I, counter_main_S0_S0_T3_car_4
+PIN, O, O, counter_main_S0_count_6F0
+END
+EOF

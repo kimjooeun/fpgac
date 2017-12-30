@@ -1,0 +1,278 @@
+WHAT IS THIS ?
+
+FpgaC is a derivative of TMCC by Dave Galloway at eecg.toronto.edu
+
+FpgaC is a High Level Language (HLL) compiler grown from a simple Hardware
+Description Language (HDL).  It takes a program written in a restricted
+subset of the C programming language, and produces a sequential circuit
+that implements the program for execution on an FPGA.
+
+The most up to date version of FpgaC can be found on
+
+     http://sourceforge.net/projects/fpgac
+
+You will need your own copy of the FPGA vendors tool chain to reduce the
+XNF netlist to a loadable bit file to load into the FPGA. You may need
+to edit the fpgac shell script to invoke that tool chain for your site.
+
+The source for the FpgaC compiler is in the "src" sub-directory.  The
+makefile in that directory can be used to compile and install the software
+and manual page.  Read src/README.
+
+The doc subdirectory contains a programming manual in troff, postscript,
+and pdf forms, along with a UNIX-style manual page.
+
+The examples subdirectory contains some sample FpgaC programs and the XNF
+output from FpgaC, so you can test your installation.
+
+
+WHO DID THIS ?
+
+The original work was done by Dave Galloway for the Transmogrifier 1 (TM-1)
+field-programmable system consisting of FPGAs, RAMs and programmable
+interconnect chips.  It was designed and built at the Department of Electrical
+and Computer Engineering, University of Toronto, by Dave Karchmer under the
+supervision of Jonathan Rose, Paul Chow, David Lewis, and Dave Galloway.
+
+TMCC was extended to accept more common C syntax by John Bass (jbass@dmsd.com
+AKA totally_lost) to aid in the porting of existing C code, renamed FpgaC and
+released on sourceforge.net.
+
+With the FpgaC project now on Sourceforge.net it has a growing developer and
+user community. Over 400 copies have been downloaded since the initial beta
+release, and a half dozen developers are now actively learning and working
+on the project.
+
+There are MANY sub-projects which need be completed for FpgaC to reach
+maturity, so other developers are welcome to join us.  See the sourceforge
+forums and feature requests if there is a feature you would like to contribute.
+
+
+IS THIS USEFUL ?
+
+FpgaC is useful for both reconfigurable computing projects and complex FSM
+based hardware designs. See the examples/pci directory for a snapshot toward
+the development of a PCI Target Mode core which is nearing completion.
+
+The compiler has been used by a handful of people.  The original TMCC was
+used in the summers of 1994/95 to produce several circuits that did graphics
+on LCD screens.  The largest circuit was about 1200 lines of tmcc code, and
+fit into four XC4010s. It had been used for other TMCC projects.  The circuits
+work.
+
+As FpgaC several demonstration for reconfigurable computing projects have
+been completed during 2004/2005, and the projects work.
+
+FpgaC is not currently a replacement for VHDL or Verilog for people who are
+serious about producing a minimal circuit design on time, and under budget.
+FpgaC in it's current subset form is functional in this beta release for
+general testing and development. However, FpgaC will grow to that maturity
+in the near future.
+
+FpgaC is interesting to someone who does know C, and wants to throw together
+a project in a couple of days to investigate its properties, or get an upper
+limit on the size or cycle time of a proposed design for a reconfigurable
+computing platform. FpgaC will grow over time to be a fairly full featured
+compiler for production reconfigurable computing applications.
+
+Netlist outputs are several vendor flavors, plus VHDL, so the outputs can be
+exported to a variety of vendors tool chains. In addition, cnf output which
+is very compact is a useful base for understanding the circuits produced by
+FpgaC, and for conversion to other formats.
+
+
+KNOWN BUGS
+
+There may be some rare cases where the compiler does not properly see logic
+which affects the outputs, and deletes it. This seems to happen rarely for
+conditionals.
+
+The language subset is not yet a complete and proper subset of C.
+
+If you find instances of these, or other bugs please bug report them in the
+bug tracker for this project on Sourceforge.net.
+
+There may be some undocumented features or changes, possibly partially
+implemented, which may or may not yet fully work.
+
+
+BUG FIXES
+
+We are interested in getting feedback from people who try FpgaC.  If you
+find a problem, fix a bug, or improve FpgaC, please post your changes to
+the sourceforge.net forums. The project is currently looking for additional
+core developers for various features requests and reported bugs.
+
+Dave is currently very busy with other work, and has requested that he
+NOT be contacted for support.
+
+
+WEB PAGE
+
+The FpgaC project Web page is at the URL: http://fpgac.sourceforge.net/
+
+
+CURRENT PROJECT SOURCES FROM SOURCEFORGE SVN
+
+This project's SourceForge.net SVN repository can be checked out through
+SVN with the following commands:
+
+   svn co https://svn.sourceforge.net/svnroot/fpgac/trunk/fpgac fpgac
+
+
+CHANGES FROM FpgaC 1.0-beta to 1.0-beta-2F
+
+- A new html users manual has been updated for this release by John Bass.
+
+- Major changes to variable creation and naming have occured to implement
+  declaration scoping more properly. Variable names can now be reused per
+  Std C scoping rules. If you find problems, please bug report.
+
+- FOR loops and DO while loops have been added as alpha test by Rahul Menon
+  please report any suprises.
+
+- Integer Multiply, Divide, and Mod/Remainder function interfaces have been
+  added as alpha test for this release by John Bass. See users manual for
+  details.
+
+- Preliminary intrinsic stubs for Floating point are now in the compiler.
+
+- Small LUT/BRAM based arrays and structures have been added as alpha test
+  for this release by John Bass. See users manual for details.
+
+- A new concurrent process type has been added for testing. Functions
+  declared with the type of fpgac_process will be started at load, and
+  will loop implictly. See users manual for details.
+
+- Changes to support building on MS Windows Platforms by Isaac Pentinmaki
+
+- FpgaC specific keywords have been prefixed with fpgac_ to prevent naming
+  conflicts. This was applied to all the #pragma names from the previous
+  release.
+
+- Bug fixes as found in the FpgaC project:
+
+    Request ID   Summary                                            Developer
+    ----------   -------------------------------------------------- ---------
+    1367682      fpgac fails to check malloc error returns          totally_lost
+    1367685      Fixed table sizes for variable and bit are fixed   totally_lost
+    1368803      Dirty build with many warnings                     totally_lost
+    1369760      Examples do not build                              totally_lost
+
+- Feature Requests as found in the FpgaC project:
+
+    Request ID   Summary                                            Developer
+    ----------   -------------------------------------------------- ---------
+    1365833      Symbol mgr and scoping fixes                       totally_lost
+    1365881      Do { ...} while(...); project                      rahulmenon7
+    1365884      For(;;) loop project                               rahulmenon7
+    1365895      CVS system setup                                   marktphillips
+    1365896      variable array support                             totally_lost + rahulmenon7
+    1373000      Minimize renaming of internal symbols              totally_lost
+    1373018      Adding grammar for 'struct'                        totally_lost
+    1409682      Setup Subversion                                   marktphillips
+    1409768      Add multiply/divide/mod as intrinsic functions     totally_lost
+    1412804      Processes ... declared function type               totally_lost
+    1409657      Windows Borland C/C++,MS C/C++, Gcc/Mingw C/C++    pentinmaki
+
+
+CHANGES FROM TMCC 4.1 to FpgaC 1.0-beta
+
+Expanded the language subset plus cleanup (John, AKA totally_lost):
+
+- Added initial support for arrays with limited functionality. (BROKEN)
+        This is testing only, as it doesn't always do the right thing.
+
+- Renamed project from TMCC to FpgaC, and setup project hosted on Sourceforge.
+
+
+CHANGES FROM 4.0 to 4.1
+
+Expanded the language subset plus cleanup (John):
+
+- Added Syntax support for additional variable types, such as long long
+        to improve portability of traditional C code.
+
+CHANGES FROM 3.1 to 4.0
+
+Added VHDL as an output type (Dave)
+
+Expanded the language subset plus cleanup (John):
+
+- Added Handle-C bit width form of "<type> <width> <name>" form so that
+	"int 12 myvariable;" works.
+- Added bit field width specification form to include vars outside struct.
+	"int myvariable:12; as an alternative to Handle-C syntax.
+- Added void, register, char (8 bits), short (16 bits), long (32 bits)
+
+	NOTE: The forms "register varname" and "register int varname"
+	      both produce an "int" variable. Other uses of register
+	      are not defined. Added to improve portability.
+
+        NOTE: #pragma intbits only sets the default width for int.
+
+- Added void and unsigned to the syntax, but it doesn't do anything yet.
+
+	NOTE: void is pretty much ignored, but improves portability. 
+
+        NOTE: The internal implementation still adds 1 bit for sign, this
+	will be depreciated in a future release when unsigned is implemented.
+
+- Added function parameter declaration form so that
+	"short myfunction(int 12 myvariable, int myothervar:12, short lastvar)"
+	all work as expected.
+- Updated the code in the examples directory to remove all pragma intbits.
+- Updated the examples outputs, as the above changes altered the sequence
+	of temp names. The new references's are identical in gate function as
+	before, just different function/pin names were generated.
+- Changed -dverbose to be -s, to decouple it from debugging output.
+- Fixed integer constants to be proper C.
+        Octal's are now properly recognized (were being converted as decimal).
+        Added the 0X hex constant form (previously only 0x form accepted).
+	Added both the 0b and 0B binary constant forms, as found in Intel and
+	other C/C++ compilers, but not UNIX PCC or GNU GCC.
+- Reduced VHDL output by converting words to std_logic_vectors.
+- Updated docs to use groff and -ms for portability and completness
+
+CHANGES FROM 3.0 to 3.1
+
+Implemented more of the C language, and expanded the language definition:
+
+- Implement these operators: +=, -=, <<=, >>=, &=, |= and ^=, ++, --
+- Allow assignments in local variable declarations
+- Allow declaration of function types and widths
+- Allow portflags bits to be or-ed together
+- Add PORT_PULLUP and PORT_PULLDOWN.
+
+Produces smaller, faster circuits.  The 3 circuits in the examples directory
+are now 15-29% faster, and 16-36% smaller than tmcc 3.0 could do:
+
+- Use the clock enable input on XC4000 flip flops
+- Use carry select adders and subtractors, unless -fno-carry-select
+- Output circuit as simple gates, to give ppr and optimization tools more scope
+- Improve multiplexor construction
+- Assume that XC4000 flip flops start at 0
+- Improve implementation of function return values
+
+A number of bug fixes, many due to John Forrest of UMIST in Manchester, UK
+and Michael Barnett of the University of Idaho:
+
+- Fix syntax of return statement.
+- Fix scope of enable input on busports
+- Fix XNF output for busports
+- Pre-define PORT_* with cpp
+- Fix memory allocation bugs in makeffinputs()
+- Fix order of include files in syntax.l
+- Make makefile more portable
+- Save the lca file, so that xdelay can be used
+- Fix shift right when shift is greater than variable width
+- Check width of function return values
+- Check number of function arguments
+- Check for assignments to input ports
+- Fix output format so that XACT 5.X doesn't complain about it
+- Fix usage message
+
+Other changes:
+
+- Add -dverbose, to give some information on the size and speed of the circuit
+- Some support for the Altera Flex 8000 parts

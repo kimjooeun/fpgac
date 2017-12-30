@@ -1,0 +1,195 @@
+#!/bin/sh
+
+
+
+# This is not a great solution, but uname -p does not work under Linux
+
+FPGAC=LIB_defined_in_the_makefile/fpgac.compiler
+#case `uname` in
+#
+#Linux)	FPGAC=LIB_defined_in_the_makefile/x86/fpgac.compiler
+#	;;
+#
+#SunOS)	FPGAC=LIB_defined_in_the_makefile/sun4/fpgac.compiler
+#	;;
+#esac
+
+toss=1
+parttype=4003pc84
+optimize=false
+format=xnf
+
+while true
+	do
+case $1 in
+
+-v)	toss=
+	shift
+	;;
+
+-O*)	optimize=force
+	args="$args $1"
+	shift
+	;;
+
+-S)	xnfonly=1
+	shift
+	;;
+
+-[acdfsmrFUDIT]*)	args="$args $1"
+		shift
+		;;
+
+-target)	args="$args $1 $2"
+		format=$2
+		shift
+		shift
+		;;
+
+-p)	parttype=$2
+	shift
+	shift
+	;;
+
+-*)	$FPGAC -usage
+	exit 1
+	;;
+
+*)	break
+	;;
+esac
+	done
+
+if test $# -gt 1; then
+	args="$args -c"
+fi
+	
+file=`basename $1 .c`
+
+case $format in
+	
+*vqm)
+	if $FPGAC -p $parttype $args $1 > /tmp/fpgac$$; then
+		sed -e '/Start of debug output/,$d' /tmp/fpgac$$ > $file.vqm
+		rm -f /tmp/fpgac$$
+	else
+		rm -f $file.vqm
+		exit 1
+	fi
+        exit 0
+	;;
+	
+cnf*)
+        rm -f $file.cnf
+	while test $# -gt 0
+		do
+		case $1 in
+
+	*.cnf)          if test -f $1; then
+				cat $1 >> $file.cnf
+			else
+				echo "fpgac: $1: can't open file"
+				rm -f $file.cnf
+				exit 1
+			fi
+			;;
+
+	*.c)            if $FPGAC -p $parttype $args $1 > /tmp/fpgac$$; then
+				cat  /tmp/fpgac$$ >> $file.cnf
+				rm -f /tmp/fpgac$$
+			else
+				rm -f $file.cnf
+				exit 1
+			fi
+			;;
+		esac
+		shift
+		done
+        exit 0
+	;;
+	
+xnf*)
+	echo "LCANET, 6" > $file.xnf
+	while test $# -gt 0
+		do
+		case $1 in
+
+	*.xnf)          if test -f $1; then
+				sed -e '/EOF/,$d' -e '/^LCANET/d' -e '/^PART/d' -e '/^PWR/d' $1 >> $file.xnf
+			else
+				echo "fpgac: $1: can't open file"
+				rm -f $file.xnf
+				exit 1
+			fi
+			;;
+
+	*.c)            if $FPGAC -p $parttype $args $1 > /tmp/fpgac$$; then
+				sed -e '/EOF/,$d' -e '/^LCANET/d' /tmp/fpgac$$ >> $file.xnf
+			else
+				rm -f $file.xnf
+				exit 1
+			fi
+			rm -f /tmp/fpgac$$
+			;;
+		esac
+		shift
+		done
+	echo EOF >> $file.xnf
+	;;
+	
+vhd|vhdl)
+	if $FPGAC -p $parttype $args $1 > /tmp/fpgac$$; then
+		sed -e '/Start of debug output/,$d' /tmp/fpgac$$ > $file.vhd
+		rm -f /tmp/fpgac$$
+	else
+		rm -f $file.vhd
+		exit 1
+	fi
+        exit 0
+	;;
+
+*)	$FPGAC -p $parttype $args $1
+	;;
+	
+esac
+
+if test "$xnfonly"; then
+        exit 0
+fi
+
+
+# if you are using a vendor other than Xilinx, you will need similar script
+
+# The rest of the script runs the Xilinx ppr software to convert the
+# xnf file to a bit file.  It is highly site specific, and you will
+# have to change this to make it work at your site.
+#
+# at this site, xnf2edf is ISE 4.2i run by wine from a windows partition.
+# xnf2edf doesn't convert pin assignments from LOC, so you need a ucf file
+# the rest of the xilinx tools are a native linux ISE 6.1i
+
+#. /xilinx/settings.sh
+
+case $optimize in
+false) mapargs="-k 4"; parargs="-ol std"
+	;;
+
+force)	mapargs="-k 6"; parargs="-ol high"
+	;;
+esac
+
+touch $file.ucf
+xnf2edf $file.xnf
+ngdbuild -intstyle ise -dd `pwd` -uc $file.ucf  -p xcv2000e-bg560-8 $file.edf $file.ngd
+map -intstyle ise -p xcv2000e-bg560-8 -cm area -pr b $mapargs -c 100 -tx off -o $file.ncd $file.ngd $file.pcf
+par -w -intstyle ise $parargs -t 1 $file.ncd $file.ncd $file.pcf
+trce -intstyle ise -e 3 -l 3 -xml $file $file.ncd -o $file.twr $file.pcf
+bitgen -intstyle ise -f $file.ut $file.ncd
+
+if test "$toss"; then
+	rm -f xnf2edf.log zz.log netlist.lst
+	for suffix in bit bld  edf  log  mrp  ncd  ngd  ngm  ngo  pad  pad.csv  pad.txt  par  pcf  twr  twx ut  xnf  xpi
+		do
+		rm -f $file.$suffix
+		done
+fi
